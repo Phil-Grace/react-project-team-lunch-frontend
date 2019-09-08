@@ -7,7 +7,6 @@ export default class ProfileContainer extends Component {
     console.log(currentUser)
     return (
       <div className="profile-container">
-        <h1>hi</h1>
         <UserProfile />
       </div>
     );
