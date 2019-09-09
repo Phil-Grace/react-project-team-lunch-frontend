@@ -1,9 +1,6 @@
 import React, { Component } from "react"
 import TeamForm from "./TeamForm"
-import TeamSearch from "./TeamSearch"
-import MemberForm from "./MemberForm"
-import MemberList from "./MemberList"
-import _ from "lodash"
+import MemberContainer from "./MemberContainer"
 
 export default class TeamContainer extends Component {
   state = {
@@ -11,7 +8,6 @@ export default class TeamContainer extends Component {
     location: "",
     searchInput: "",
     members: [],
-    // team_id: undefined
     showTeamForm: true
   }
 
@@ -32,6 +28,7 @@ export default class TeamContainer extends Component {
         .then(newMember => console.log(newMember))
         .catch(err => console.log(err))
     })
+    this.setState({showTeamForm: !this.state.showTeamForm})
   }
 
   addATeam = (e, team) => {
@@ -39,7 +36,8 @@ export default class TeamContainer extends Component {
     const { allTeams } = this.props
     this.setState({
       team_name: team.teamNameInput,
-      location: team.locationInput
+      location: team.locationInput,
+      showTeamForm: !this.state.showTeamForm
     })
 
     // console.log(allTeams.filter(oldTeam => oldTeam.includes(team.teamNameInput)))
@@ -79,26 +77,34 @@ export default class TeamContainer extends Component {
 
   render() {
     const { allUsers, currentUser } = this.props
-    const { searchInput, members, team_name, location, showTeamForm } = this.state
+    const {
+      searchInput,
+      members,
+      team_name,
+      location,
+      showTeamForm
+    } = this.state
     const filteredUsers = searchInput
       ? allUsers.filter(user => user.username.includes(searchInput))
       : null
-    // console.log(currentUser);
+    console.log(currentUser);
     return (
       <div className="team-form-container">
+        {showTeamForm ? (
           <TeamForm currentUser={currentUser} addATeam={this.addATeam} />
-          <MemberList
+        ) : (
+          <MemberContainer
             currentUser={currentUser}
             members={members}
             removeMember={this.removeMember}
             team_name={team_name}
             location={location}
-          />
-          <MemberForm
             handleChange={this.handleChange}
             saveTeamMembers={this.saveTeamMembers}
+            addMember={this.addMember}
+            filteredUsers={filteredUsers}
           />
-          <TeamSearch addMember={this.addMember} filteredUsers={filteredUsers} /> 
+        )}
       </div>
     )
   }
