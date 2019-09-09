@@ -15,7 +15,9 @@ class App extends Component {
   state = {
     allUsers: [],
     allTeams: [],
-    currentUserId: 1 // update this to backend
+    currentUserId: 1, // update this to backend
+    // currentTeamId: undefined
+    currentTeam: {}
   };
 
   componentDidMount() {
@@ -35,16 +37,34 @@ class App extends Component {
       .then(teams => this.setState({ allTeams: teams }));
   };
 
-  fetchYelp = () => {}
-  
+  getCurrentTeam = (newTeamObj) => {
+    // TODO Moves the setstate of team_id to App level to pass to roulettecont
+    // console.log(newTeamObj)
+    this.setState({currentTeam: newTeamObj})
+  };
+
+  fetchYelp = () => {};
+
   render() {
-    const { allUsers, allTeams, currentUserId} = this.state;
-    const currentUser = allUsers.find(user => Number(user.id) === currentUserId)
+    const { allUsers, allTeams, currentUserId, currentTeam } = this.state;
+    // const currentUser = allUsers.find(user => Number(user.id) === currentUserId)
+    const currentUser = allUsers.filter(
+      user => Number(user.id) === currentUserId
+    );
+    // console.log(currentUser);
+    console.log(currentTeam)
     return (
       <div>
         {/* <ProfileContainer currentUser={currentUser}/> */}
-        {/* <RouletteContainer /> */}
-        <TeamContainer allUsers={allUsers} allTeams={allTeams} currentUser={currentUser} fetchURL={fetchURL}/>
+        <TeamContainer
+          allUsers={allUsers}
+          allTeams={allTeams}
+          currentUser={currentUser}
+          fetchURL={fetchURL}
+          getCurrentTeam={this.getCurrentTeam}
+          currentTeam={currentTeam}
+        />
+        <RouletteContainer />
       </div>
     );
   }

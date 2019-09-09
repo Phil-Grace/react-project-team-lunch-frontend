@@ -13,15 +13,16 @@ export default class TeamForm extends Component {
     const targetName = e.target.name
     this.setState({[targetName]: targetValue})
   }
-
+   
   render() {
     const { currentUser, addATeam } = this.props
     const { teamNameInput,locationInput } = this.state
-    // console.log(this.state)
+    // console.log(currentUser)
     return (
       <div>
         <Form onSubmit={(event) => addATeam(event, this.state)}>
           <Form.Field widths="equal">
+            <label>Team Leader: {currentUser.username}</label>
             <label>Enter Team Name</label>
             <input onChange={this.handleChange} name="teamNameInput" placeholder="Enter a team name..." />
             <label>Enter Team Location</label>
