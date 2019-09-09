@@ -4,7 +4,7 @@ import TeamUserAvatar from "./TeamUserAvatar";
 
 export default class MemberList extends Component {
   render() {
-    const { members, removeMember,team_name, location } = this.props;
+    const { members, removeMember,team_name, location, currentUser } = this.props;
     const mappedMembers = members.map(member => (
       <TeamUserAvatar user={member} removeMember={removeMember} />
     ));
