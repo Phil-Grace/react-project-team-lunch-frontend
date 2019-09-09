@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dropdown } from "semantic-ui-react";
+import { Dropdown, Button, Form } from "semantic-ui-react";
 
 const categories = [
   {
@@ -49,49 +49,53 @@ const cityOptions = [
 
 export default class RouletteForm extends Component {
 
-  // state = {
-  //   locationInput: "",
-  //   categoryInput: ""
-  // };
+  state = {
+    locationInput: "",
+    categoryInput: ""
+  };
 
-  // handleDropdown = (e, data) => {
-  //   const targetValue = data.value;
-  //   const targetName = data.name;
-  //   // console.log(data)
-  //   this.setState({ [targetName]: targetValue })
-  // };
+  handleDropdown = (e, data) => {
+    const targetValue = data.value;
+    const targetName = data.name;
+    this.setState({ [targetName]: targetValue })
+  };
 
   render() {
-    const {updateState, handleDropdown} = this.props
-   
+    const {updateState, handleDropdown, handleSpin} = this.props
+    console.log(this.state)
     return (
       <div>
-        <Dropdown
-          button
-          floating
-          search
-          labeled
-          onChange={handleDropdown}
-          name="categoryInput"
-          placeholder="Select Category"
-          fluid
-          selection
-          options={categories}
-        />
+        <Form onSubmit={(e)=> handleSpin(e,this.state)}>
+          <Form.Field>
+            <Dropdown
+              button
+              floating
+              search
+              labeled
+              onChange={this.handleDropdown}
+              name="categoryInput"
+              placeholder="Select Category"
+              fluid
+              selection
+              options={categories}
+            />
 
-        <Dropdown
-          button
-          floating
-          search
-          labeled
-          onChange={handleDropdown}
-          name="locationInput"
-          placeholder="Select From List"
-          fluid
-          selection
-          options={cityOptions}
-        />
-      </div>
+            <Dropdown
+              button
+              floating
+              search
+              labeled
+              onChange={this.handleDropdown}
+              name="locationInput"
+              placeholder="Select From List"
+              fluid
+              selection
+              options={cityOptions}
+            />
+          </Form.Field>
+          <Form.Field control={Button} primary>SPIN DAT ISH</Form.Field>
+      </Form>
+    </div>
     );
   }
 }
