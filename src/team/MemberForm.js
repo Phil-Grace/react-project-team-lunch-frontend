@@ -9,7 +9,7 @@ export default class MemberForm extends Component {
     // console.log(this.props)
     return (
       <div>
-        <Form>
+        <Form onSubmit={saveTeamMembers} >
           <Form.Field widths="equal">
             <label>Find Team Members</label>
             <Search
@@ -20,7 +20,7 @@ export default class MemberForm extends Component {
               showNoResults={false}
             />
           </Form.Field>
-          <Button onClick={saveTeamMembers} primary >Ready for Lunch?</Button> 
+          <Button primary >Ready for Lunch?</Button> 
         </Form>
       </div>
     );
