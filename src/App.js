@@ -33,7 +33,6 @@ componentDidMount() {
     this.fetchYelp()
   }
 
-
 // ---------------------
   fetchYelp = () => {
     fetch(queryURL)
