@@ -22,9 +22,9 @@ export default class TeamForm extends Component {
       <div>
         <Form onSubmit={(event) => addATeam(event, this.state)}>
           <Form.Field widths="equal">
-            <label>Team Name</label>
+            <label>Enter Team Name</label>
             <input onChange={this.handleChange} name="teamNameInput" placeholder="Enter a team name..." />
-            <label>Team Location</label>
+            <label>Enter Team Location</label>
             <input onChange={this.handleChange} name="locationInput" placeholder="Enter a location..." />
           </Form.Field>
           <Button type="submit">Create Team</Button>

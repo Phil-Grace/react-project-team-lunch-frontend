@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form, Search } from "semantic-ui-react";
+import { Button, Form, Search, Header } from "semantic-ui-react";
 import _ from "lodash";
 
 export default class MemberForm extends Component {
