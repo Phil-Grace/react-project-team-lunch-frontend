@@ -9,7 +9,7 @@ export default class TeamUserAvatar extends Component {
         <Header as="h2">
           <Image
             circular
-            src="https://react.semantic-ui.com/images/avatar/large/patrick.png"
+            src={user.img_url}
           />{" "}
           {user.username}
         </Header>
