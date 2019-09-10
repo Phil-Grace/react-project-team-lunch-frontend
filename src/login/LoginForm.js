@@ -10,6 +10,9 @@ import {
   Segment
 } from "semantic-ui-react";
 
+const loginURL = "http://localhost:3000/login" // Host
+
+
 
 export default class LoginForm extends Component {
 
@@ -18,7 +21,31 @@ export default class LoginForm extends Component {
         passwordInput: ''
     }
 
+    handleSubmit = () => {
+        fetch(loginURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json',
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                username: this.state.usernameInput,
+                password: this.state.passwordInput
+            })
+        }).then(res => res.json())
+        // .then(console.log.results)
+        .then(userdata => this.props.getUserId(userdata.results))
+        .catch(err => console.log(err))
+    }
+
+    handleChange = e => {
+        const targetValue = e.target.value
+        const targetName = e.target.name
+        this.setState({[targetName]: targetValue})
+    }
+
     render() {
+        console.log(this.state)
         return (
         <div>
             <Grid
@@ -30,26 +57,27 @@ export default class LoginForm extends Component {
                 <Header as="h2" color="teal" textAlign="center">
                 <Image src="/logo.png" /> Log-in to your account
                 </Header>
-                <Form size="large" onSubmit={this.handleChange}>
+                <Form size="large" onSubmit={this.handleSubmit}>
                 <Segment stacked>
                     <Form.Input
-                    fluid
-                    icon="user"
-                    iconPosition="left"
-                    placeholder="Username"
-                    type="password"
-                    name="username"
+                        onChange={this.handleChange}
+                        fluid
+                        icon="user"
+                        iconPosition="left"
+                        placeholder="Username"
+                        type="text"
+                        name="usernameInput"
                     />
                     <Form.Input
-                    fluid
-                    icon="lock"
-                    iconPosition="left"
-                    placeholder="Password"
-                    type="password"
-                    name="password"
+                        onChange={this.handleChange}
+                        fluid
+                        icon="lock"
+                        iconPosition="left"
+                        placeholder="Password"
+                        type="password"
+                        name="passwordInput"
                     />
-
-                    <Button color="teal" fluid size="large">
+                    <Button type="submit" color="teal" fluid size="large">
                     Login
                     </Button>
                 </Segment>

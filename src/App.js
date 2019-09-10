@@ -4,7 +4,10 @@ import ProfileContainer from "./profile/ProfileContainer";
 import TeamContainer from "./team/TeamContainer";
 import RouletteContainer from "./roulette/RouletteContainer";
 import LoginContainer from "./login/LoginContainer";
+import LoginForm from "./login/LoginForm";
 import { Search } from "semantic-ui-react";
+import NewUserForm from "./login/NewUserForm";
+import { Route, Switch } from "react-router-dom";
 
 const queryURL = "http://localhost:3000/search";
 const fetchURL = "http://localhost:3000" // Host
@@ -16,7 +19,7 @@ class App extends Component {
   state = {
     allUsers: [],
     allTeams: [],
-    currentUserId: 1, // update this to backend
+    currentUserId: 9, // update this to backend
     yelpResults: [],
     currentTeam: {},
     showTeamContainer: true
@@ -62,6 +65,11 @@ componentDidMount() {
     this.setState({showTeamContainer: !this.state.showTeamContainer})
   }
 
+// set state of current user ID after the login is successful
+  getUserId = (userid) => {
+    this.setState({currentUserId: userid})
+  }
+
   render() {
     const {
       allUsers,
@@ -72,31 +80,44 @@ componentDidMount() {
       yelpResults
     } = this.state
     const currentUser = allUsers.find(user => user.id === currentUserId)
-    // console.log(yelpResults)
-    return allUsers.length > 0 ? (
-      <div>
-        {/* <ProfileContainer currentUser={currentUser}/> */}
-        {showTeamContainer ? (
-          <TeamContainer
-            allUsers={allUsers}
-            allTeams={allTeams}
-            currentUser={currentUser}
-            fetchURL={fetchURL}
-            getCurrentTeam={this.getCurrentTeam}
-            currentTeam={currentTeam}
-            selectContainer={this.selectContainer}
-          />
-        ) : (
-          <RouletteContainer 
-            fetchYelp={this.fetchYelp} 
-            yelpResults={yelpResults}
-            selectContainer={this.selectContainer}
-          />
-        )}
+    console.log(this.state)
+
+    return (
+      <div className="login-container">
+        {/* <Link to="/login">Login</Link> */}
+
+        {/* <LoginForm getUserId={this.getUserId} /> */}
+        <Route 
+        path="/login" 
+        render={() => (<LoginForm getUserId={this.getUserId} />)} />
       </div>
-    ) : (
-      <div>Loading...</div>
     )
+    
+    // return allUsers.length > 0 ? (
+    //   <div>
+    //     {/* <ProfileContainer currentUser={currentUser}/> */}
+    //     {showTeamContainer ? (
+    //       <TeamContainer
+    //         allUsers={allUsers}
+    //         allTeams={allTeams}
+    //         currentUser={currentUser}
+    //         fetchURL={fetchURL}
+    //         getCurrentTeam={this.getCurrentTeam}
+    //         currentTeam={currentTeam}
+    //         selectContainer={this.selectContainer}
+    //       />
+    //     ) : (
+    //       <RouletteContainer 
+    //         fetchYelp={this.fetchYelp} 
+    //         yelpResults={yelpResults}
+    //         selectContainer={this.selectContainer}
+    //       />
+    //     )}
+    //   </div>
+    // ) : (
+    //   <div>Loading...</div>
+    // )
+    
   }
 }
 
