@@ -12,17 +12,8 @@ export default class RouletteContainer extends Component {
   }
 
   handleSpin = (e, data) => {
-    // spin button submit
-    // console.log(e)
-    console.log(data)
     this.props.fetchYelp(data.locationInput, data.categoryInput)
   }
-
-  // handleDropDown = (e, data) => {
-  //   console.log(e)
-  //   console.log(data)
-  //   // setstate up here
-  // }
 
   render() {
     const { fetchYelp, yelpResults } = this.props

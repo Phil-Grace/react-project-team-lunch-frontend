@@ -6,16 +6,11 @@ import RouletteContainer from "./roulette/RouletteContainer";
 import LoginContainer from "./login/LoginContainer";
 import { Search } from "semantic-ui-react";
 
-// const fetchURL = "http://10.198.66.254:3000"; // Phil's
-// const fetchURL = "http://10.198.66.254:3000"; // Grace's
+const queryURL = "http://localhost:3000/search";
 const fetchURL = "http://localhost:3000" // Host
 const fetchUsers = fetchURL + "/users"
 const fetchTeams = fetchURL + "/teams"
-// const fetchUserTeams = fetchURL + "/user_teams";
-
-// const queryURL1 = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/";
-const queryURL = "http://localhost:3000/search";
-// var apiKey = "_8muJUEopjlHdnIimkRVTlubRBpzdp0Jf0HQXvLG2X0d3D0mNFJJanrWBqGU0jsnaTgTynfYmfpQrcSNhtfo51Kgr6UCKMFSjo5ZK03OFo7QBLz00fqMzW5ogrRyXXYx"
+const fetchUserTeams = fetchURL + "/user_teams";
 
 class App extends Component {
   state = {
@@ -31,11 +26,9 @@ class App extends Component {
 componentDidMount() {
     this.fetchUsers();
     this.fetchTeams();
-    // this.fetchYelp()
   }
 
-// ---------------------
-  fetchYelp = (location, term) => { // location, term
+  fetchYelp = (location, term) => {
     const querySearch = queryURL
     fetch(querySearch, {
       method: "POST",
@@ -46,19 +39,15 @@ componentDidMount() {
       })
     })
     .then(res => res.json())
-    .then(console.log)
-    // .then(data => this.setState({yelpResults: data}))
+    .then(data => this.setState({yelpResults: data.results}))
     .catch(err => console.log(err))
   }
-// ----------------------
   
   fetchUsers = () => {
     fetch(fetchUsers)
       .then(res => res.json())
       .then(users => this.setState({ allUsers: users }))
   }
-
-  // Need to do a fetch call for current user id through sessions
 
   fetchTeams = () => {
     fetch(fetchTeams)
@@ -67,8 +56,6 @@ componentDidMount() {
   }
 
   getCurrentTeam = newTeamObj => {
-    // TODO Moves the setstate of team_id to App level to pass to roulettecont
-    // console.log(newTeamObj)
     this.setState({ currentTeam: newTeamObj })
   }
 
@@ -82,7 +69,7 @@ componentDidMount() {
       yelpResults
     } = this.state
     const currentUser = allUsers.find(user => user.id === currentUserId)
-    // console.log(this.state)
+    console.log(yelpResults)
     return allUsers.length > 0 ? (
       <div>
         {/* <ProfileContainer currentUser={currentUser}/> */}
