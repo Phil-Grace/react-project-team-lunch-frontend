@@ -7,7 +7,7 @@ import LoginContainer from "./login/LoginContainer";
 import LoginForm from "./login/LoginForm";
 import { Search } from "semantic-ui-react";
 import NewUserForm from "./login/NewUserForm";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 const queryURL = "http://localhost:3000/search";
 const fetchURL = "http://localhost:3000"; // Host
@@ -19,7 +19,7 @@ class App extends Component {
   state = {
     allUsers: [],
     allTeams: [],
-    currentUserId: 9, // update this to backend
+    currentUserId: 0, // update this to backend
     yelpResults: [],
     currentTeam: {},
     showTeamContainer: true
@@ -83,14 +83,19 @@ class App extends Component {
       yelpResults
     } = this.state;
     const currentUser = allUsers.find(user => user.id === currentUserId);
-    console.log(this.state);
+    console.log(currentUser);
 
     return allUsers.length > 0 ? (
-      <div className="login-container">
-
+      <div className="app-container">
+      <Router>
+        {currentUserId === 0 ? <Redirect to='/login' /> : <Redirect to='/newteam' />}
         <Route
           path="/login"
           render={() => <LoginForm getUserId={this.getUserId} />}
+        />
+        <Route 
+          path='/createaccount'
+          render={NewUserForm}
         />
         <Route
           path="/newteam"
@@ -116,33 +121,9 @@ class App extends Component {
             />
           )}
         />
-      </div> 
-    ) : "Loading..." 
-
-    // return allUsers.length > 0 ? (
-    // <div>
-    //   {/* <ProfileContainer currentUser={currentUser}/> */}
-    //   {showTeamContainer ? (
-    //     <TeamContainer
-    //       allUsers={allUsers}
-    //       allTeams={allTeams}
-    //       currentUser={currentUser}
-    //       fetchURL={fetchURL}
-    //       getCurrentTeam={this.getCurrentTeam}
-    //       currentTeam={currentTeam}
-    //       selectContainer={this.selectContainer}
-    //     />
-    // ) : (
-    // <RouletteContainer
-    //   fetchYelp={this.fetchYelp}
-    //   yelpResults={yelpResults}
-    //   selectContainer={this.selectContainer}
-    // />
-    //     )}
-    //   </div>
-    // ) : (
-    //   <div>Loading...</div>
-    // )
+      </Router>
+      </div>
+    ) : (<div>Loading...</div>)
   }
 }
 

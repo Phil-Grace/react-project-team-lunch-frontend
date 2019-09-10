@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import {
   Button,
@@ -9,10 +8,10 @@ import {
   Message,
   Segment
 } from "semantic-ui-react";
+import {Link} from 'react-router-dom'
+import NewUserForm from "./NewUserForm";
 
 const loginURL = "http://localhost:3000/login" // Host
-
-
 
 export default class LoginForm extends Component {
 
@@ -83,7 +82,7 @@ export default class LoginForm extends Component {
                 </Segment>
                 </Form>
                 <Message>
-                New to us? <a href="#">Sign Up</a>
+                New to us? <Link to='/createaccount'>Create New Account</Link>
                 </Message>
             </Grid.Column>
             </Grid>

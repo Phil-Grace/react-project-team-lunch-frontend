@@ -9,7 +9,7 @@ export default class TeamUserAvatar extends Component {
         <Header as="h2">
           <Image
             circular
-            src="https://cdn3.iconfinder.com/data/icons/women-avatars/314/9-01-512.png"
+            src={user.img_url}
           />{" "}
           {user.username}
         </Header>
