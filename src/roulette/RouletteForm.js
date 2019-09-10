@@ -18,7 +18,7 @@ export default class RouletteForm extends Component {
 
   render() {
     const {updateState, handleDropdown, handleSpin} = this.props
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <div>
         <Form onSubmit={(e)=> handleSpin(e,this.state)}>

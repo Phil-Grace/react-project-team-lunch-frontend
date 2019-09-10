@@ -19,9 +19,8 @@ class App extends Component {
     currentUserId: 1, // update this to backend
     yelpResults: [],
     currentTeam: {},
-    showTeamContainer: false
+    showTeamContainer: true
   };
-
 
 componentDidMount() {
     this.fetchUsers();
@@ -59,6 +58,10 @@ componentDidMount() {
     this.setState({ currentTeam: newTeamObj })
   }
 
+  selectContainer = e => {
+    this.setState({showTeamContainer: !this.state.showTeamContainer})
+  }
+
   render() {
     const {
       allUsers,
@@ -69,7 +72,7 @@ componentDidMount() {
       yelpResults
     } = this.state
     const currentUser = allUsers.find(user => user.id === currentUserId)
-    console.log(yelpResults)
+    // console.log(yelpResults)
     return allUsers.length > 0 ? (
       <div>
         {/* <ProfileContainer currentUser={currentUser}/> */}
@@ -81,9 +84,14 @@ componentDidMount() {
             fetchURL={fetchURL}
             getCurrentTeam={this.getCurrentTeam}
             currentTeam={currentTeam}
+            selectContainer={this.selectContainer}
           />
         ) : (
-          <RouletteContainer fetchYelp={this.fetchYelp} yelpResults={yelpResults}/>
+          <RouletteContainer 
+            fetchYelp={this.fetchYelp} 
+            yelpResults={yelpResults}
+            selectContainer={this.selectContainer}
+          />
         )}
       </div>
     ) : (

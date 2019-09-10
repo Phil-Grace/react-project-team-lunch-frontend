@@ -29,6 +29,7 @@ export default class TeamContainer extends Component {
         .catch(err => console.log(err))
     })
     this.setState({showTeamForm: !this.state.showTeamForm})
+    this.props.selectContainer()
   }
 
   addATeam = (e, team) => {
@@ -87,7 +88,7 @@ export default class TeamContainer extends Component {
     const filteredUsers = searchInput
       ? allUsers.filter(user => user.username.includes(searchInput))
       : null
-    console.log(currentUser);
+    // console.log(currentUser);
     return (
       <div className="team-form-container">
         {showTeamForm ? (

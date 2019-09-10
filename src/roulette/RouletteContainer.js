@@ -6,29 +6,33 @@ import SpinButton from "./SpinButton"
 
 export default class RouletteContainer extends Component {
   state = {
-    // locationInput: "",
-    // categoryInput: ""
-    // yelpResults: []
+    showRouletteForm: true
   }
-
   handleSpin = (e, data) => {
     this.props.fetchYelp(data.locationInput, data.categoryInput)
+    this.setState({showRouletteForm: false})
   }
 
   render() {
     const { fetchYelp, yelpResults } = this.props
+    const { showRouletteForm } = this.state
     // console.log(this.props)
     // console.log(this.state)
     return (
-      <div>
-        <RouletteForm
-          handleDropDown={this.handleDropdown}
-          handleSpin={this.handleSpin}
-          fetchYelp={fetchYelp}
-        />
-        <RouletteCard yelpResults={this.props.yelpResults} />
-        {/* <SpinButton /> */}
-        {/* <ResultCard />  */}
+      <div className="roulette-container">
+        {
+          showRouletteForm ? 
+          <RouletteForm
+            handleDropDown={this.handleDropdown}
+            handleSpin={this.handleSpin}
+            fetchYelp={fetchYelp}
+          /> : 
+          <RouletteCard 
+            yelpResults={yelpResults} 
+            handleSpin={this.handleSpin}
+            selectContainer={this.props.selectContainer}
+          />
+        }
       </div>
     )
   }

@@ -19,7 +19,6 @@ export default class TeamForm extends Component {
     const { teamNameInput,locationInput } = this.state
     const { username } = currentUser
     // console.log(username)
-    console.log(Object.keys(currentUser))
     return (
       <div>
         <Form onSubmit={(event) => addATeam(event, this.state)}>
