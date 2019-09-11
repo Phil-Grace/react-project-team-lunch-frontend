@@ -5,7 +5,6 @@ const UserAvatars = [
   "https://image.flaticon.com/icons/svg/145/145847.svg",
   "https://image.flaticon.com/icons/svg/145/145848.svg",
   "https://image.flaticon.com/icons/svg/145/145850.svg",
-  "https://image.flaticon.com/icons/svg/145/145846.svg",
   "https://image.flaticon.com/icons/svg/145/145844.svg",
   "https://image.flaticon.com/icons/svg/145/145845.svg",
   "https://image.flaticon.com/icons/svg/219/219961.svg",

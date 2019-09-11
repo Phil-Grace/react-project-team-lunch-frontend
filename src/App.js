@@ -52,7 +52,10 @@ class App extends Component {
       .then(res => res.json())
       // .then(console.log)
       // .then(data => this.setState({loggedIn: true, currentUserID: data.user_id}))
-      .then(data => this.getUser(data.user))
+      .then(data => {
+        if (data.user) {
+          this.getUser(data.user)}
+        })
       .catch(err => console.log(err))
   }
 
