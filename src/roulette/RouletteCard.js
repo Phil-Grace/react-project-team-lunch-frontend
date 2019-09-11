@@ -16,6 +16,7 @@ export default class RouletteCard extends Component {
 
   render() {
     const { yelpResults } = this.props
+    console.log(yelpResults)
     const { indexArray } = this.state
     let result = yelpResults[indexArray[indexArray.length - 1]]
     // console.log('yelp: ', yelpResults)

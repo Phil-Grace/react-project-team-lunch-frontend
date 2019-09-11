@@ -1,54 +1,58 @@
-import React, { Component } from "react";
-import "./App.css";
-import ProfileContainer from "./profile/ProfileContainer";
-import TeamContainer from "./team/TeamContainer";
-import RouletteContainer from "./roulette/RouletteContainer";
-import LoginContainer from "./login/LoginContainer";
-import LoginForm from "./login/LoginForm";
-import { Search } from "semantic-ui-react";
-import NewUserForm from "./login/NewUserForm";
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import React, { Component } from "react"
+import "./App.css"
+import ProfileContainer from "./profile/ProfileContainer"
+import TeamContainer from "./team/TeamContainer"
+import RouletteContainer from "./roulette/RouletteContainer"
+import LoginContainer from "./login/LoginContainer"
+import LoginForm from "./login/LoginForm"
+import { Search, Button } from "semantic-ui-react"
+import NewUserForm from "./login/NewUserForm"
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom"
 
-const queryURL = "http://localhost:3000/search";
-const fetchURL = "http://localhost:3000"; // Host
-const fetchUsers = fetchURL + "/users";
-const fetchTeams = fetchURL + "/teams";
-const fetchUserTeams = fetchURL + "/user_teams";
+const queryURL = "http://localhost:3000/search"
+const fetchURL = "http://localhost:3000" // Host
+const fetchUsers = fetchURL + "/users"
+const fetchTeams = fetchURL + "/teams"
+const fetchUserTeams = fetchURL + "/user_teams"
 
 class App extends Component {
   state = {
     allUsers: [],
     allTeams: [], // JSON please log in
-    currentUserId: 9, // update this to backend
+    // currentUserId: 9, // update this to backend
     currentUser: {},
     yelpResults: [],
     currentTeam: {},
+    loggedIn: false,
     showTeamContainer: true
-  };
+  }
 
   componentDidMount() {
     this.fetchCurrentUser()
-    // this.fetchUsers();
-    // this.fetchTeams();
+    this.fetchUsers();
+    this.fetchTeams();
   }
 
   fetchCurrentUser = () => {
-    fetch(fetchUsers, {
-      method: "GET", 
-      headers: {
-        Authorization: `Bearer ${localStorage.token}`
-      }
-    }).then(res => res.json())
-    .catch(err => console.log(err))
+    this.fetchAuthToken(fetchUsers)
+      .then(res => res.json())
+      .then(data => this.setState({loggedIn: true}))
+      .catch(err => console.log(err))
   }
 
   fetchYelp = (location, term) => {
-    const querySearch = queryURL;
+    const querySearch = queryURL
     fetch(querySearch, {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        accept: "application/json"
+        accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
       },
       body: JSON.stringify({
         term: term,
@@ -57,45 +61,47 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(data => this.setState({ yelpResults: data.results }))
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.log(err))
+  }
 
   fetchUsers = () => {
-    fetch(fetchUsers, {
-      method: 'GET', 
-      headers: {
-        Authorization: `Bearer ${localStorage.token}`
-      }
-    })
+    this.fetchAuthToken(fetchUsers)
       .then(res => res.json())
       .then(users => this.setState({ allUsers: users }))
       .catch(err => console.log(err))
-  };
+  }
 
   fetchTeams = () => {
-    fetch(fetchTeams, {
-      method: 'GET', 
+    this.fetchAuthToken(fetchTeams)
+      .then(res => res.json())
+      .then(teams => this.setState({ allTeams: teams }))
+      .catch(err => console.log(err))
+  }
+
+  fetchAuthToken = url => {
+    return fetch(url, {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.token}`
       }
     })
-      .then(res => res.json())
-      .then(teams => this.setState({ allTeams: teams }))
-      .catch(err => console.log(err))
-  };
-
+  }
   getCurrentTeam = newTeamObj => {
-    this.setState({ currentTeam: newTeamObj });
-  };
-
+    this.setState({ currentTeam: newTeamObj })
+  }
+  logOut = () => {
+    localStorage.clear()
+    this.setState({loggedIn: false})
+    console.log('logged out')
+  }
   selectContainer = e => {
-    this.setState({ showTeamContainer: !this.state.showTeamContainer });
-  };
+    this.setState({ showTeamContainer: !this.state.showTeamContainer })
+  }
 
   // set state of current user ID after the login is successful
   getUser = user => {
-    this.setState({ currentUser: user });
-  };
+    this.setState({ currentUser: user, loggedIn: true })
+  }
 
   render() {
     const {
@@ -104,53 +110,84 @@ class App extends Component {
       // currentUserId,
       currentTeam,
       currentUser,
+      loggedIn,
       showTeamContainer,
       yelpResults
-    } = this.state;
+    } = this.state
     // const currentUser = allUsers.length > 0 ? allUsers.find(user => user.id === currentUserId) : null;
-    
-    console.log(this.state);
+    const tokenCheck = localStorage.token ? true : false
+    console.log(tokenCheck, loggedIn)
+    console.log(this.state)
 
     // return allUsers.length > 0 ? (
     return true ? (
       <div className="login-container">
-
-        <Route
-          path="/login"
-          render={() => <LoginForm getUser={this.getUser} fetchUsers={this.fetchUsers} fetchTeams={this.fetchTeams} />}
-        />
-        <Route 
-          path='/createaccount'
-          render={NewUserForm}
-        />
-        <Route
-          path="/newteam"
-          render={() => (
-            <TeamContainer
-              allUsers={allUsers}
-              allTeams={allTeams}
-              currentUser={currentUser}
-              fetchURL={fetchURL}
-              getCurrentTeam={this.getCurrentTeam}
-              currentTeam={currentTeam}
-              selectContainer={this.selectContainer}
-            />
-          )}
-        />
-        <Route
-          path="/roulette"
-          render={() => (
-            <RouletteContainer
-              fetchYelp={this.fetchYelp}
-              yelpResults={yelpResults}
-              selectContainer={this.selectContainer}
-            />
-          )}
-        />
-      </Router>
+        <Router>
+          {loggedIn ? <Link to='/login' onClick={this.logOut}>Log Out</Link> : null }
+          <Route
+            path="/login"
+            render={() => (
+              loggedIn ? (
+              <Redirect to='/newteam' /> ):( 
+              <LoginForm
+                getUser={this.getUser}
+                fetchUsers={this.fetchUsers}
+                fetchTeams={this.fetchTeams}
+              />)
+            )}
+          />
+          <Route 
+            path="/createaccount" 
+            render={() => (
+              loggedIn ? (
+                <Redirect to='/newteam' />
+              ) : (
+                <NewUserForm />
+              )
+            )} 
+          />
+          <Route
+            path="/newteam"
+            render={() => (
+              loggedIn ? (
+              <TeamContainer
+                allUsers={allUsers}
+                allTeams={allTeams}
+                currentUser={currentUser}
+                fetchURL={fetchURL}
+                getCurrentTeam={this.getCurrentTeam}
+                currentTeam={currentTeam}
+                selectContainer={this.selectContainer}
+                fetchCurrentUser={this.fetchCurrentUser}
+                fetchUsers={this.fetchUsers}
+                fetchTeams={this.fetchTeams}
+              />) : (
+                <Redirect to='/login' />
+              )
+            )}
+          />
+          <Route
+            path="/roulette"
+            render={() => (
+              loggedIn ? (
+              <RouletteContainer
+                fetchYelp={this.fetchYelp}
+                yelpResults={yelpResults}
+                selectContainer={this.selectContainer}
+                fetchCurrentUser={this.fetchCurrentUser}
+                fetchUsers={this.fetchUsers}
+                fetchTeams={this.fetchTeams}
+              /> ) : (
+                <Redirect to='/login' />
+              )
+            )}
+          />
+        </Router>
       </div>
-    ) : (<div>Loading...</div>)
+    ) : (
+      <div>Loading...</div>
+    )
   }
 }
 
-export default App;
+export default App

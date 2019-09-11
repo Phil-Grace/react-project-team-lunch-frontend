@@ -11,6 +11,13 @@ export default class TeamContainer extends Component {
     showTeamForm: true
   }
 
+  componentDidMount() {
+    this.props.fetchCurrentUser()
+    this.props.fetchUsers();
+    this.props.fetchTeams();
+  }
+
+
   saveTeamMembers = () => {
     // TODO Take array of members and run POST requests to the user_teams url
     const fetchUserTeams = this.props.fetchURL + "/user_teams"
@@ -18,7 +25,7 @@ export default class TeamContainer extends Component {
     this.state.members.forEach(member => {
       fetch(fetchUserTeams, {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "content-type": "application/json", Authorization: `Bearer ${localStorage.token}` },
         body: JSON.stringify({
           user_id: member.id,
           team_id: this.props.currentTeam.id
@@ -40,11 +47,9 @@ export default class TeamContainer extends Component {
       location: team.locationInput,
       showTeamForm: !this.state.showTeamForm
     })
-
-    // console.log(allTeams.filter(oldTeam => oldTeam.includes(team.teamNameInput)))
     fetch(fetchTeams, {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", Authorization: `Bearer ${localStorage.token}` },
       body: JSON.stringify({
         team_name: team.teamNameInput
       })

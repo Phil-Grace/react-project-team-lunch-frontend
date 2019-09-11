@@ -8,6 +8,13 @@ export default class RouletteContainer extends Component {
   state = {
     showRouletteForm: true
   }
+
+  componentDidMount() {
+    this.props.fetchCurrentUser()
+    this.props.fetchUsers();
+    this.props.fetchTeams();
+  }
+
   handleSpin = (e, data) => {
     this.props.fetchYelp(data.locationInput, data.categoryInput)
     this.setState({showRouletteForm: false})
