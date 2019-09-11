@@ -7,7 +7,7 @@ import LoginContainer from "./login/LoginContainer";
 import LoginForm from "./login/LoginForm";
 import { Search } from "semantic-ui-react";
 import NewUserForm from "./login/NewUserForm";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 const queryURL = "http://localhost:3000/search";
 const fetchURL = "http://localhost:3000"; // Host
@@ -119,6 +119,10 @@ class App extends Component {
           path="/login"
           render={() => <LoginForm getUser={this.getUser} fetchUsers={this.fetchUsers} fetchTeams={this.fetchTeams} />}
         />
+        <Route 
+          path='/createaccount'
+          render={NewUserForm}
+        />
         <Route
           path="/newteam"
           render={() => (
@@ -143,33 +147,9 @@ class App extends Component {
             />
           )}
         />
-      </div> 
-    ) : "Loading..." 
-
-    // return allUsers.length > 0 ? (
-    // <div>
-    //   {/* <ProfileContainer currentUser={currentUser}/> */}
-    //   {showTeamContainer ? (
-    //     <TeamContainer
-    //       allUsers={allUsers}
-    //       allTeams={allTeams}
-    //       currentUser={currentUser}
-    //       fetchURL={fetchURL}
-    //       getCurrentTeam={this.getCurrentTeam}
-    //       currentTeam={currentTeam}
-    //       selectContainer={this.selectContainer}
-    //     />
-    // ) : (
-    // <RouletteContainer
-    //   fetchYelp={this.fetchYelp}
-    //   yelpResults={yelpResults}
-    //   selectContainer={this.selectContainer}
-    // />
-    //     )}
-    //   </div>
-    // ) : (
-    //   <div>Loading...</div>
-    // )
+      </Router>
+      </div>
+    ) : (<div>Loading...</div>)
   }
 }
 

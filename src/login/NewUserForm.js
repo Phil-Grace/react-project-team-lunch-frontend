@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import { Form } from "semantic-ui-react";
+import React, { Component } from "react"
+import { Form } from "semantic-ui-react"
+const loginURL = "http://localhost:3000/login"
 
 const URL = "http://localhost:3000/" 
 
@@ -58,8 +59,7 @@ class NewUserForm extends Component {
           </Form.Group>
         </Form>
       </div>
-    );
+    )
   }
 }
-
-export default NewUserForm;
+export default NewUserForm
