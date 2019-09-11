@@ -24,7 +24,7 @@ class App extends Component {
   state = {
     allUsers: [],
     allTeams: [], // JSON please log in
-    // currentUserId: 9, // update this to backend
+    currentUserId: 0, // update this to backend
     currentUser: {},
     yelpResults: [],
     currentTeam: {},
@@ -39,9 +39,20 @@ class App extends Component {
   }
 
   fetchCurrentUser = () => {
-    this.fetchAuthToken(fetchUsers)
+    // this.fetchAuthToken(fetchUsers)
+    fetch(fetchURL + '/finduser', {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      },
+      body: JSON.stringify({token: localStorage.token})
+    })
       .then(res => res.json())
-      .then(data => this.setState({loggedIn: true}))
+      // .then(console.log)
+      // .then(data => this.setState({loggedIn: true, currentUserID: data.user_id}))
+      .then(data => this.getUser(data.user))
       .catch(err => console.log(err))
   }
 
@@ -107,7 +118,7 @@ class App extends Component {
     const {
       allUsers,
       allTeams,
-      // currentUserId,
+      currentUserId,
       currentTeam,
       currentUser,
       loggedIn,
