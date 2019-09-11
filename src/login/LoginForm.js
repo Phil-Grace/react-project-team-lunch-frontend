@@ -33,8 +33,14 @@ export default class LoginForm extends Component {
                 password: this.state.passwordInput
             })
         }).then(res => res.json())
-        // .then(console.log.results)
-        .then(userdata => this.props.getUserId(userdata.results))
+        .then(data => {
+            console.log(data)
+            localStorage.setItem('token', data.jwt)
+            this.props.getUser(data.user)
+            this.props.fetchUsers()
+            this.props.fetchTeams()
+        })
+        // .then(userdata => this.props.getUserId(userdata.results))
         .catch(err => console.log(err))
     }
 
@@ -45,7 +51,7 @@ export default class LoginForm extends Component {
     }
 
     render() {
-        console.log(this.state)
+        // console.log(this.state)
         return (
         <div>
             <Grid

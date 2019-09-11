@@ -18,16 +18,28 @@ const fetchUserTeams = fetchURL + "/user_teams";
 class App extends Component {
   state = {
     allUsers: [],
-    allTeams: [],
+    allTeams: [], // JSON please log in
     currentUserId: 9, // update this to backend
+    currentUser: {},
     yelpResults: [],
     currentTeam: {},
     showTeamContainer: true
   };
 
   componentDidMount() {
-    this.fetchUsers();
-    this.fetchTeams();
+    this.fetchCurrentUser()
+    // this.fetchUsers();
+    // this.fetchTeams();
+  }
+
+  fetchCurrentUser = () => {
+    fetch(fetchUsers, {
+      method: "GET", 
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    }).then(res => res.json())
+    .catch(err => console.log(err))
   }
 
   fetchYelp = (location, term) => {
@@ -49,15 +61,27 @@ class App extends Component {
   };
 
   fetchUsers = () => {
-    fetch(fetchUsers)
+    fetch(fetchUsers, {
+      method: 'GET', 
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
       .then(res => res.json())
-      .then(users => this.setState({ allUsers: users }));
+      .then(users => this.setState({ allUsers: users }))
+      .catch(err => console.log(err))
   };
 
   fetchTeams = () => {
-    fetch(fetchTeams)
+    fetch(fetchTeams, {
+      method: 'GET', 
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
       .then(res => res.json())
-      .then(teams => this.setState({ allTeams: teams }));
+      .then(teams => this.setState({ allTeams: teams }))
+      .catch(err => console.log(err))
   };
 
   getCurrentTeam = newTeamObj => {
@@ -69,28 +93,31 @@ class App extends Component {
   };
 
   // set state of current user ID after the login is successful
-  getUserId = userid => {
-    this.setState({ currentUserId: userid });
+  getUser = user => {
+    this.setState({ currentUser: user });
   };
 
   render() {
     const {
       allUsers,
       allTeams,
-      currentUserId,
+      // currentUserId,
       currentTeam,
+      currentUser,
       showTeamContainer,
       yelpResults
     } = this.state;
-    const currentUser = allUsers.find(user => user.id === currentUserId);
+    // const currentUser = allUsers.length > 0 ? allUsers.find(user => user.id === currentUserId) : null;
+    
     console.log(this.state);
 
-    return allUsers.length > 0 ? (
+    // return allUsers.length > 0 ? (
+    return true ? (
       <div className="login-container">
 
         <Route
           path="/login"
-          render={() => <LoginForm getUserId={this.getUserId} />}
+          render={() => <LoginForm getUser={this.getUser} fetchUsers={this.fetchUsers} fetchTeams={this.fetchTeams} />}
         />
         <Route
           path="/newteam"
