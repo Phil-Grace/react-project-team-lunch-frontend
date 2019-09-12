@@ -10,6 +10,7 @@ import {
   Link,
   Redirect
 } from "react-router-dom"
+import ResultPage from "./result/ResultPage"
 
 const queryURL = "http://localhost:3000/search"
 const fetchURL = "http://localhost:3000" // Host
@@ -24,9 +25,17 @@ class App extends Component {
     currentUserId: 0, // update this to backend
     currentUser: {},
     yelpResults: [],
-    currentTeam: {},
+    currentTeam: {
+      team_name: 'Bebe' // testObj
+    },
     loggedIn: false,
-    showTeamContainer: true
+    result: { // testObj
+      name: "Four Coffees",
+      location: {
+        display_address: "somewhere cool"
+      },
+      display_phone: '248-867-5309'
+    }
   }
 
   componentDidMount() {
@@ -37,7 +46,6 @@ class App extends Component {
   }
 
   fetchCurrentUser = () => {
-    // this.fetchAuthToken(fetchUsers)
     fetch(fetchURL + "/finduser", {
       method: "POST",
       headers: {
@@ -48,8 +56,6 @@ class App extends Component {
       body: JSON.stringify({ token: localStorage.token })
     })
       .then(res => res.json())
-      // .then(console.log)
-      // .then(data => this.setState({loggedIn: true, currentUserID: data.user_id}))
       .then(data => {
         if (data.user) {
           this.getUser(data.user)
@@ -107,12 +113,13 @@ class App extends Component {
     this.setState({ loggedIn: false })
     console.log("logged out")
   }
-  selectContainer = e => {
-    this.setState({ showTeamContainer: !this.state.showTeamContainer })
-  }
 
   getUser = user => {
     this.setState({ currentUser: user, loggedIn: true })
+  }
+
+  setResult = resultObj => {
+    this.setState({result: resultObj})
   }
 
   render() {
@@ -123,8 +130,8 @@ class App extends Component {
       currentTeam,
       currentUser,
       loggedIn,
-      // showTeamContainer,
-      yelpResults
+      yelpResults,
+      result
     } = this.state
     // const currentUser = allUsers.length > 0 ? allUsers.find(user => user.id === currentUserId) : null;
     const tokenCheck = localStorage.token ? true : false
@@ -200,10 +207,24 @@ class App extends Component {
                   fetchCurrentUser={this.fetchCurrentUser}
                   fetchUsers={this.fetchUsers}
                   fetchTeams={this.fetchTeams}
+                  setResult={this.setResult}
                 />
               ) : (
                 <Redirect to="/login" />
               )
+            }
+          />
+          <Route 
+            path='/result'
+            render={() => 
+              // loggedIn ? (
+                <ResultPage 
+                  result={result}
+                  currentTeam={currentTeam}
+                />
+              // ) : (
+                // <Redirect to='/login' />
+              // )
             }
           />
         </Router>

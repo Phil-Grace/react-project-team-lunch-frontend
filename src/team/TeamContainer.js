@@ -13,12 +13,11 @@ export default class TeamContainer extends Component {
 
   componentDidMount() {
     this.props.fetchCurrentUser()
-    this.props.fetchUsers();
-    this.props.fetchTeams();
-    this.setState({members: [this.props.currentUser]})
-    console.log('team')
+    this.props.fetchUsers()
+    this.props.fetchTeams()
+    this.setState({ members: [this.props.currentUser] })
+    console.log("team")
   }
-
 
   saveTeamMembers = () => {
     // TODO Take array of members and run POST requests to the user_teams url
@@ -27,7 +26,10 @@ export default class TeamContainer extends Component {
     this.state.members.forEach(member => {
       fetch(fetchUserTeams, {
         method: "POST",
-        headers: { "content-type": "application/json", Authorization: `Bearer ${localStorage.token}` },
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${localStorage.token}`
+        },
         body: JSON.stringify({
           user_id: member.id,
           team_id: this.props.currentTeam.id
@@ -37,7 +39,7 @@ export default class TeamContainer extends Component {
         .then(newMember => console.log(newMember))
         .catch(err => console.log(err))
     })
-    this.setState({showTeamForm: !this.state.showTeamForm})
+    this.setState({ showTeamForm: !this.state.showTeamForm })
     this.props.selectContainer()
   }
 
@@ -51,7 +53,10 @@ export default class TeamContainer extends Component {
     })
     fetch(fetchTeams, {
       method: "POST",
-      headers: { "content-type": "application/json", Authorization: `Bearer ${localStorage.token}` },
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      },
       body: JSON.stringify({
         team_name: team.teamNameInput
       })
@@ -92,10 +97,14 @@ export default class TeamContainer extends Component {
       location,
       showTeamForm
     } = this.state
-    const removeCurrentUserArray = allUsers ? allUsers.filter(member => member.id !== currentUser.id) : null
-    console.log(removeCurrentUserArray)
+    const removeCurrentUserArray = allUsers
+      ? allUsers.filter(member => member.id !== currentUser.id)
+      : null
+    // console.log(removeCurrentUserArray)
     const filteredUsers = searchInput
-      ? removeCurrentUserArray.filter(user => user.username.includes(searchInput))
+      ? removeCurrentUserArray.filter(user =>
+          user.username.includes(searchInput)
+        )
       : null
     // console.log(currentUser);
     return (

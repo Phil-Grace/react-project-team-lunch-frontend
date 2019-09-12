@@ -2,16 +2,14 @@ import React, { Component } from "react"
 import RouletteCard from "./RouletteCard"
 import RouletteForm from "./RouletteForm"
 import { Image } from "semantic-ui-react"
-import ResultCard from "../result/ResultCard"
-import SpinButton from "./SpinButton"
 const spinning_pizza = 'https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2F3o7bu8sRnYpTOG1p8k%2Fgiphy.gif'
-
 
 export default class RouletteContainer extends Component {
   state = {
     showRouletteForm: true,
     showPizza: false,
-    showCard: false
+    showCard: false,
+    indexArray: [0]
   }
 
   componentDidMount() {
@@ -40,9 +38,18 @@ export default class RouletteContainer extends Component {
     }, 3000)
   }
 
+  randomYelp = array => {
+    this.handleTimer()
+    let randIndex = Math.floor(Math.random() * 10)
+    while (array.includes(randIndex)) {
+      randIndex = Math.floor(Math.random() * 10)
+    }
+    this.setState({ indexArray: [...this.state.indexArray, randIndex] })
+  }
+
   render() {
-    const { fetchYelp, yelpResults } = this.props
-    const { showRouletteForm, showPizza, showCard } = this.state
+    const { fetchYelp, yelpResults, setResult } = this.props
+    const { showRouletteForm, showPizza, showCard, indexArray } = this.state
     // console.log(this.props)
     // console.log(this.state)
     return (
@@ -62,6 +69,9 @@ export default class RouletteContainer extends Component {
             handleSpin={this.handleSpin}
             selectContainer={this.props.selectContainer}
             handleTimer={this.handleTimer}
+            randomYelp={this.randomYelp}
+            indexArray={indexArray}
+            setResult={setResult}
           /> : null}
       </div>
     )
