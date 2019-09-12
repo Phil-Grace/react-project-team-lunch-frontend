@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import TeamSearch from "./TeamSearch"
 import MemberForm from "./MemberForm"
 import MemberList from "./MemberList"
+import TeamUserAvatar from "./TeamUserAvatar"
 
 export default class MemberContainer extends Component {
   render() {
@@ -19,6 +20,8 @@ export default class MemberContainer extends Component {
     // const {} = this.state
     return (
       <div className="member-container">
+        {/* <label>Team Leader: {currentUser.username}</label> */}
+        <TeamUserAvatar user={currentUser} />
         <MemberList
           currentUser={currentUser}
           members={members}

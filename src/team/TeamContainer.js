@@ -15,6 +15,8 @@ export default class TeamContainer extends Component {
     this.props.fetchCurrentUser()
     this.props.fetchUsers();
     this.props.fetchTeams();
+    this.setState({members: [this.props.currentUser]})
+    console.log('team')
   }
 
 
@@ -90,8 +92,10 @@ export default class TeamContainer extends Component {
       location,
       showTeamForm
     } = this.state
+    const removeCurrentUserArray = allUsers ? allUsers.filter(member => member.id !== currentUser.id) : null
+    console.log(removeCurrentUserArray)
     const filteredUsers = searchInput
-      ? allUsers.filter(user => user.username.includes(searchInput))
+      ? removeCurrentUserArray.filter(user => user.username.includes(searchInput))
       : null
     // console.log(currentUser);
     return (

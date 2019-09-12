@@ -1,6 +1,7 @@
 // LUNCH? Button
 import React, { Component } from "react";
 import { Button, Form, Header, Image } from "semantic-ui-react";
+import TeamUserAvatar from "./TeamUserAvatar";
 
 export default class TeamForm extends Component {
   state = {
@@ -23,7 +24,8 @@ export default class TeamForm extends Component {
       <div>
         <Form onSubmit={(event) => addATeam(event, this.state)}>
           <Form.Field widths="equal">
-            <label>Team Leader: {currentUser.username}</label>
+            {/* <label>Team Leader: {currentUser.username}</label> */}
+            <TeamUserAvatar user={currentUser} />
             <label>Enter Team Name</label>
             <input onChange={this.handleChange} name="teamNameInput" placeholder="Enter a team name..." />
           </Form.Field>

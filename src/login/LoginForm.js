@@ -9,7 +9,7 @@ import {
   Segment
 } from "semantic-ui-react";
 import {Link} from 'react-router-dom'
-import NewUserForm from "./NewUserForm";
+// import NewUserForm from "./NewUserForm";
 
 const loginURL = "http://localhost:3000/login" // Host
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Button, Image, Header, Grid, Card } from "semantic-ui-react";
 import UserAvatars from "./UserAvatars";
-const loginURL = "http://localhost:3000/login";
+const imgStart = "https://i2.wp.com/www.ahfirstaid.org/wp-content/uploads/2014/07/avatar-placeholder.png?fit=204%2C204"
 
 const URL = "http://localhost:3000/users";
 
@@ -9,8 +9,8 @@ class NewUserForm extends Component {
   state = {
     usernameInput: "",
     passwordInput: "",
-    img_url:
-      "https://i2.wp.com/www.ahfirstaid.org/wp-content/uploads/2014/07/avatar-placeholder.png?fit=204%2C204",
+    // passwordConfirmation: "",
+    img_url: imgStart,
     titleInput: ""
   };
 
@@ -19,11 +19,12 @@ class NewUserForm extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        "Accept": "application/json"
       },
       body: JSON.stringify({
         username: this.state.usernameInput,
         password: this.state.passwordInput,
+        // password_confirmation: this.state.passwordConfirmation,
         title: this.state.titleInput,
         img_url: this.state.img_url
       })
@@ -89,6 +90,16 @@ class NewUserForm extends Component {
                   type="password"
                 />
               </Form.Group>
+              {/* <Form.Group>
+                <Form.Input
+                  onChange={this.handleChange}
+                  fluid
+                  label="Confirm Password"
+                  placeholder="Confirm Password"
+                  name="passwordConfirmation"
+                  type="password"
+                />
+              </Form.Group> */}
               <Image.Group itemsPerRow={5}>
                 <Header as="h2">Choose Your Avatar</Header>
                 {mappedAvatars}

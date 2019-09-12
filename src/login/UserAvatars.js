@@ -1,5 +1,3 @@
-import React from 'react';
-
 const UserAvatars = [
   "https://image.flaticon.com/icons/svg/145/145843.svg",
   "https://image.flaticon.com/icons/svg/145/145847.svg",

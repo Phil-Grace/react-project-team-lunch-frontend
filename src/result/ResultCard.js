@@ -1,6 +1,6 @@
 // Render the restaurant that is fetched
 import React, { Component } from "react"
-import { Card, Icon, Image, Button } from "semantic-ui-react"
+import { Card, Image, Button } from "semantic-ui-react"
 
 class ResultCard extends Component {
   render() {

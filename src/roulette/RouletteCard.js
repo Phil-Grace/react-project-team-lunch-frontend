@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Card, Icon, Image, Button } from "semantic-ui-react"
+import { Card, Image, Button } from "semantic-ui-react"
 
 export default class RouletteCard extends Component {
   state = {
@@ -7,6 +7,7 @@ export default class RouletteCard extends Component {
   }
 
   randomYelp = array => {
+    this.props.handleTimer()
     let randIndex = Math.floor(Math.random() * 10)
     while (array.includes(randIndex)) {
       randIndex = Math.floor(Math.random() * 10)
@@ -18,14 +19,18 @@ export default class RouletteCard extends Component {
     const { yelpResults } = this.props
     console.log(yelpResults)
     const { indexArray } = this.state
-    let result = yelpResults[indexArray[indexArray.length - 1]]
-    // console.log('yelp: ', yelpResults)
-    // console.log('result: ', result)
+    // TODO Need failsafe for bad yelp call
+    let result =
+      yelpResults.length > 0
+        ? yelpResults[indexArray[indexArray.length - 1]]
+        : null
+        
+    console.log(result)
 
     return yelpResults.length > 0 ? (
       <div className="roulette-card">
         <Card>
-          <Image src={result.image_url} wrapped ui={false} size='medium'/>
+          <Image src={result.image_url} wrapped ui={false} size="medium" />
           <Card.Content>
             <Card.Header>{result.name}</Card.Header>
             <Card.Description>
@@ -41,7 +46,9 @@ export default class RouletteCard extends Component {
           <Button onClick={() => this.randomYelp(indexArray)} primary>
             Spin Again
           </Button>
-          <Button onClick={() => this.props.selectContainer()} primary>OK</Button>
+          <Button onClick={() => this.props.selectContainer()} primary>
+            OK
+          </Button>
         </Card>
       </div>
     ) : (
