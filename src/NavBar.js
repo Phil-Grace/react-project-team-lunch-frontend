@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import { Menu} from "semantic-ui-react";
 
 const styleNav = {
-   backgroundColor: '#4484CE',
-   color: 'white'
+  //  backgroundColor: '#4484CE',
+   backgroundColor: 'navy',
+   color: 'white',
+   fontFamily: "Arvo"
 }
 
 class NavBar extends Component {

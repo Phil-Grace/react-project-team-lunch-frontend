@@ -20,10 +20,9 @@ const fetchTeams = fetchURL + "/teams"
 
 const styleApp = {
   // backgroundColor: 'navy',
-  color: 'white',
-  textAlign: 'center',
-  fontFamily: 'Arvo'
-
+  color: "white",
+  textAlign: "center",
+  fontFamily: "Arvo"
   // margin: '20px'
 }
 
@@ -35,15 +34,16 @@ class App extends Component {
     currentUser: {},
     yelpResults: [],
     currentTeam: {
-      team_name: 'Bebe' // testObj
+      team_name: "Team Name" // testObj
     },
     loggedIn: false,
-    result: { // testObj
-      name: "Four Coffees",
+    result: {
+      // testObj
+      name: "Name",
       location: {
         display_address: "somewhere cool"
       },
-      display_phone: '248-867-5309'
+      display_phone: "248-867-5309"
     }
   }
 
@@ -51,7 +51,7 @@ class App extends Component {
     this.fetchCurrentUser()
     this.fetchUsers()
     this.fetchTeams()
-    console.log('app')
+    console.log("app")
   }
 
   fetchCurrentUser = () => {
@@ -128,7 +128,7 @@ class App extends Component {
   }
 
   setResult = resultObj => {
-    this.setState({result: resultObj})
+    this.setState({ result: resultObj })
   }
 
   render() {
@@ -153,12 +153,12 @@ class App extends Component {
     return true ? (
       <div style={styleApp} className="login-container">
         <Router>
-          {/* {loggedIn ? (
-            <Link to="/login" onClick={this.logOut}>
-              Log Out
-            </Link>
-          ) : null} */}
-          <NavBar loggedIn={loggedIn} user={currentUser} logOut={this.logOut} teamName={currentTeam.team_name}/>
+          <NavBar
+            loggedIn={loggedIn}
+            user={currentUser}
+            logOut={this.logOut}
+            teamName={currentTeam.team_name}
+          />
           <Route
             path="/login"
             render={() =>
@@ -227,16 +227,15 @@ class App extends Component {
               )
             }
           />
-          <Route 
-            path='/result'
-            render={() => 
-              // loggedIn ? (
-                <ResultPage 
-                  result={result}
-                  currentTeam={currentTeam}
-                />
+          <Route
+            path="/result"
+            render={
+              () => (
+                // loggedIn ? (
+                <ResultPage result={result} currentTeam={currentTeam} />
+              )
               // ) : (
-                // <Redirect to='/login' />
+              // <Redirect to='/login' />
               // )
             }
           />

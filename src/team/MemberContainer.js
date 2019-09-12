@@ -9,7 +9,8 @@ const style = {
   // color: 'white',
   textAlign: 'center',
   padding: '10px 10px',
-  color: 'black'
+  color: 'black',
+  fontFamily: "Arvo"
 }
 
 export default class MemberContainer extends Component {
