@@ -2,15 +2,15 @@ import React, { Component } from "react"
 import RouletteCard from "./RouletteCard"
 import RouletteForm from "./RouletteForm"
 import { Image } from "semantic-ui-react"
-const spinning_pizza = 'https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2F3o7bu8sRnYpTOG1p8k%2Fgiphy.gif'
+const spinning_pizza =
+  "https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2F3o7bu8sRnYpTOG1p8k%2Fgiphy.gif"
 
 const style = {
   // color: 'white',
-  textAlign: 'center',
-  padding: '10px 10px',
-  color: 'black'
+  textAlign: "center",
+  padding: "10px 10px",
+  color: "black"
 }
-
 
 export default class RouletteContainer extends Component {
   state = {
@@ -22,26 +22,26 @@ export default class RouletteContainer extends Component {
 
   componentDidMount() {
     this.props.fetchCurrentUser()
-    this.props.fetchUsers();
-    this.props.fetchTeams();
-    console.log('roulette')
+    this.props.fetchUsers()
+    this.props.fetchTeams()
+    console.log("roulette")
   }
 
   handleSpin = (e, data) => {
     this.props.fetchYelp(data.locationInput, data.categoryInput)
     this.setState({
       showRouletteForm: false,
-      showPizza: true,
+      showPizza: true
     })
     this.handleTimer()
   }
-  
+
   handleTimer = () => {
     // countdown a couple seconds changing the set to pizza: true, card: false and back
-    this.setState({showPizza: true, showCard: false})
+    this.setState({ showPizza: true, showCard: false })
     this.intervalID = setInterval(() => {
-      this.setState({showPizza: false, showCard: true})
-      console.log('pizza')
+      this.setState({ showPizza: false, showCard: true })
+      console.log("pizza")
       clearInterval(this.intervalID)
     }, 3000)
   }
@@ -62,25 +62,29 @@ export default class RouletteContainer extends Component {
     // console.log(this.state)
     return (
       <div style={style} className="roulette-container">
-
-          {showRouletteForm ? 
+        {showRouletteForm ? (
           <RouletteForm
             handleDropDown={this.handleDropdown}
             handleSpin={this.handleSpin}
             fetchYelp={fetchYelp}
-          /> : null }
+          />
+        ) : null}
 
-          {showPizza ? <Image src={spinning_pizza}/> : null}
+        {showPizza ? (
+          <Image src={spinning_pizza} style={{ textAlign: "center" }} />
+        ) : null}
 
-          {showCard ? <RouletteCard 
-            yelpResults={yelpResults} 
+        {showCard ? (
+          <RouletteCard
+            yelpResults={yelpResults}
             handleSpin={this.handleSpin}
             selectContainer={this.props.selectContainer}
             handleTimer={this.handleTimer}
             randomYelp={this.randomYelp}
             indexArray={indexArray}
             setResult={setResult}
-          /> : null}
+          />
+        ) : null}
       </div>
     )
   }

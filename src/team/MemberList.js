@@ -11,10 +11,10 @@ export default class MemberList extends Component {
       <TeamUserAvatar user={member} removeMember={removeMember} />
     ));
     return (
-      <div style={{textAlign: 'left', margin: '0 15px'}} className="member-list">
+      <div style={{textAlign: 'center', margin: '0 15px'}} className="member-list">
         {/* <Header>Team Name: {team_name}</Header> */}
-        <Header as='h2'>My Team</Header>
-        <div style={{backgroundColor: '#F9Cf00', margin: '10px'}}>{mappedMembers} </div>
+        <Header as='h2' style={{fontFamily: "Arvo"}}>My Team</Header>
+        <div style={{textAlign: "left", backgroundColor: '#F9Cf00', margin: '10px'}}>{mappedMembers} </div>
       </div>
     )
   }

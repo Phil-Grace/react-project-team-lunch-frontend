@@ -14,7 +14,7 @@ export default class TeamUserAvatar extends Component {
             : null
         }
       >
-        <Header style={{marginBottom: '20px'}} as="h2">
+        <Header style={{marginBottom: '20px',fontFamily: "Arvo"}} as="h3">
           <Image circular src={user.img_url} /> {user.username}
         </Header>
       </div>

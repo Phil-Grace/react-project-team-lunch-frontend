@@ -4,7 +4,7 @@
 
 body {
   /* background-color: #008F95; */
-  background-color: #D9D9D9;
+  /* background-color: #D9D9D9; */
   color: black;
   font-family: 'Arvo', serif;
   /* margin: '50px'; */
@@ -39,5 +39,10 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+
+input[type=text] {
+  border: 30px solid red;
+  border-radius: 4px;
 }
 
