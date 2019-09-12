@@ -2,6 +2,15 @@
   text-align: center;
 }
 
+body {
+  /* background-color: #008F95; */
+  background-color: #D9D9D9;
+  color: black;
+  font-family: 'Arvo', serif;
+  /* margin: '50px'; */
+
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
@@ -31,3 +40,4 @@
     transform: rotate(360deg);
   }
 }
+

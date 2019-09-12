@@ -10,6 +10,6 @@ export default class TeamSearch extends Component {
           <TeamUserAvatar user={user} addMember={addMember} />
         ))
       : null
-    return <div>{mappedSearch}</div>
+    return <div style={{textAlign: 'left', margin: '0 10px', marginLeft: '20px'}} className='team-search'>{mappedSearch}</div>
   }
 }

@@ -4,6 +4,7 @@ import TeamContainer from "./team/TeamContainer"
 import RouletteContainer from "./roulette/RouletteContainer"
 import LoginForm from "./login/LoginForm"
 import NewUserForm from "./login/NewUserForm"
+import NavBar from "./NavBar"
 import {
   BrowserRouter as Router,
   Route,
@@ -16,7 +17,15 @@ const queryURL = "http://localhost:3000/search"
 const fetchURL = "http://localhost:3000" // Host
 const fetchUsers = fetchURL + "/users"
 const fetchTeams = fetchURL + "/teams"
-// const fetchUserTeams = fetchURL + "/user_teams"
+
+const styleApp = {
+  // backgroundColor: 'navy',
+  color: 'white',
+  textAlign: 'center',
+  fontFamily: 'Arvo'
+
+  // margin: '20px'
+}
 
 class App extends Component {
   state = {
@@ -135,18 +144,21 @@ class App extends Component {
     } = this.state
     // const currentUser = allUsers.length > 0 ? allUsers.find(user => user.id === currentUserId) : null;
     const tokenCheck = localStorage.token ? true : false
+    const teamError = Object.keys(currentTeam).includes("errors")
+    console.log(teamError)
     console.log(tokenCheck, loggedIn)
     console.log(this.state)
 
     // return allUsers.length > 0 ? (
     return true ? (
-      <div className="login-container">
+      <div style={styleApp} className="login-container">
         <Router>
-          {loggedIn ? (
+          {/* {loggedIn ? (
             <Link to="/login" onClick={this.logOut}>
               Log Out
             </Link>
-          ) : null}
+          ) : null} */}
+          <NavBar loggedIn={loggedIn} user={currentUser} logOut={this.logOut} teamName={currentTeam.team_name}/>
           <Route
             path="/login"
             render={() =>
@@ -190,6 +202,7 @@ class App extends Component {
                   fetchCurrentUser={this.fetchCurrentUser}
                   fetchUsers={this.fetchUsers}
                   fetchTeams={this.fetchTeams}
+                  teamError={teamError}
                 />
               ) : (
                 <Redirect to="/login" />

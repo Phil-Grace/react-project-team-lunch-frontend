@@ -1,6 +1,6 @@
-import React, { Component } from "react"
-import TeamForm from "./TeamForm"
-import MemberContainer from "./MemberContainer"
+import React, { Component } from "react";
+import TeamForm from "./TeamForm";
+import MemberContainer from "./MemberContainer";
 
 export default class TeamContainer extends Component {
   state = {
@@ -9,19 +9,19 @@ export default class TeamContainer extends Component {
     searchInput: "",
     members: [],
     showTeamForm: true
-  }
+  };
 
   componentDidMount() {
-    this.props.fetchCurrentUser()
-    this.props.fetchUsers()
-    this.props.fetchTeams()
-    this.setState({ members: [this.props.currentUser] })
-    console.log("team")
+    this.props.fetchCurrentUser();
+    this.props.fetchUsers();
+    this.props.fetchTeams();
+    this.setState({ members: [this.props.currentUser] });
+    console.log("team");
   }
 
   saveTeamMembers = () => {
     // TODO Take array of members and run POST requests to the user_teams url
-    const fetchUserTeams = this.props.fetchURL + "/user_teams"
+    const fetchUserTeams = this.props.fetchURL + "/user_teams";
     // console.log(this.state.members)
     this.state.members.forEach(member => {
       fetch(fetchUserTeams, {
@@ -37,75 +37,74 @@ export default class TeamContainer extends Component {
       })
         .then(res => res.json())
         .then(newMember => console.log(newMember))
-        .catch(err => console.log(err))
-    })
-    this.setState({ showTeamForm: !this.state.showTeamForm })
-    this.props.selectContainer()
-  }
+        .catch(err => console.log(err));
+    });
+    this.setState({ showTeamForm: !this.state.showTeamForm });
+    this.props.selectContainer();
+  };
 
   addATeam = (e, team) => {
-    const fetchTeams = this.props.fetchURL + "/teams"
-    const { allTeams } = this.props
+    const fetchTeams = this.props.fetchURL + "/teams";
+    // const { allTeams } = this.props;
     this.setState({
       team_name: team.teamNameInput,
-      location: team.locationInput,
       showTeamForm: !this.state.showTeamForm
-    })
+    });
     fetch(fetchTeams, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${localStorage.token}`
-      },
-      body: JSON.stringify({
-        team_name: team.teamNameInput
-      })
-    })
-      .then(res => res.json())
-      //   .then(team => this.setState({ team_id: team.id }))
-      .then(team => this.props.getCurrentTeam(team))
-      .catch(err => console.log(err))
-  }
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${localStorage.token}`
+          },
+          body: JSON.stringify({
+            team_name: team.teamNameInput
+          })
+        })
+          .then(res => res.json())
+          .then(team => {
+            this.props.getCurrentTeam(team);
+          })
+  };
 
   addMember = (e, member) => {
-    const memberCheck = this.state.members.includes(member)
+    const memberCheck = this.state.members.includes(member);
     if (!memberCheck) {
-      this.setState({ members: [...this.state.members, member] })
+      this.setState({ members: [...this.state.members, member] });
     }
-  }
+  };
 
   removeMember = (e, member) => {
-    const newMemberArray = []
+    const newMemberArray = [];
     this.state.members.forEach(user => {
       if (user !== member) {
-        newMemberArray.push(user)
+        newMemberArray.push(user);
       }
-    })
-    this.setState({ members: newMemberArray })
-  }
+    });
+    this.setState({ members: newMemberArray });
+  };
 
   handleChange = (e, value) => {
-    this.setState({ searchInput: value })
-  }
+    this.setState({ searchInput: value });
+  };
 
   render() {
-    const { allUsers, currentUser } = this.props
+    const { allUsers, currentUser, teamError } = this.props;
     const {
       searchInput,
       members,
       team_name,
       location,
       showTeamForm
-    } = this.state
+    } = this.state;
     const removeCurrentUserArray = allUsers
       ? allUsers.filter(member => member.id !== currentUser.id)
-      : null
+      : null;
     // console.log(removeCurrentUserArray)
     const filteredUsers = searchInput
       ? removeCurrentUserArray.filter(user =>
           user.username.includes(searchInput)
         )
-      : null
+      : null;
     // console.log(currentUser);
     return (
       <div className="team-form-container">
@@ -125,6 +124,6 @@ export default class TeamContainer extends Component {
           />
         )}
       </div>
-    )
+    );
   }
 }

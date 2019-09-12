@@ -4,6 +4,14 @@ import RouletteForm from "./RouletteForm"
 import { Image } from "semantic-ui-react"
 const spinning_pizza = 'https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2F3o7bu8sRnYpTOG1p8k%2Fgiphy.gif'
 
+const style = {
+  // color: 'white',
+  textAlign: 'center',
+  padding: '10px 10px',
+  color: 'black'
+}
+
+
 export default class RouletteContainer extends Component {
   state = {
     showRouletteForm: true,
@@ -53,7 +61,7 @@ export default class RouletteContainer extends Component {
     // console.log(this.props)
     // console.log(this.state)
     return (
-      <div className="roulette-container">
+      <div style={style} className="roulette-container">
 
           {showRouletteForm ? 
           <RouletteForm
